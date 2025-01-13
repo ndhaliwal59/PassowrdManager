@@ -1,0 +1,101 @@
+.signup-page {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.signup-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #2c2c2c;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+button {
+  padding: 0.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.signin-btn {
+  background-color: #2196F3;
+  width: 300px;
+}
+
+.password-feedback {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.password-feedback p {
+  margin: 0.2rem 0;
+}
+
+.valid {
+  color: #4CAF50;
+}
+
+.invalid {
+  color: #f44336;
+}
+
+.error-message {
+  color: #f44336;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.success-message {
+  color: #4CAF50;
+  margin-top: .5rem;
+  text-align: center;
+  font-weight: bold;
+}
