@@ -12,24 +12,6 @@ body {
   height: 100vh;
 }
 
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 2rem;
-  position: relative;
-}
-
-.logo {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-}
-
-.logo img {
-  width: 50px;
-  height: 50px;
-}
 
 h1 {
   font-size: 2rem;

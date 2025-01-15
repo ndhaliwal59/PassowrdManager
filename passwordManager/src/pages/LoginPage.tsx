@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/header.tsx'
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -19,13 +20,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="login-page">
-      <header>
-        <div className="logo">
-          {/* Empty image for logo */}
-          <img src="/path-to-your-logo.png" alt="Logo" />
-        </div>
-        <h1>Password Manager</h1>
-      </header>
+      <Header title="Password Manager"/>
       <div className="login-form-container">
         <form onSubmit={handleLogin}>
           <input

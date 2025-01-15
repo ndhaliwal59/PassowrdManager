@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignupPage.css';
+import Header from '../components/header.tsx'
 
 const SignupPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -53,12 +54,7 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="signup-page">
-      <header>
-        <h1>Sign Up</h1>
-        <div className="logo">
-          <img src="/path-to-your-logo.png" alt="Logo" />
-        </div>
-      </header>
+      <Header title="Create an Account"/>
       <div className="signup-form-container">
         <form onSubmit={handleSignup}>
           <input

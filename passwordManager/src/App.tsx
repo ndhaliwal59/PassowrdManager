@@ -16,7 +16,7 @@ const App: React.FC = () => {
     // </Router>
     <div className="App">
     <MainPasswordPage />
-  </div>
+    </div>
   );
 };
 
