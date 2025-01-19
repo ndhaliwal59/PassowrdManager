@@ -1,33 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './MainPasswordPage.css';
 import Header from '../components/header.tsx'
 import PasswordSearch from '../components/PasswordSearch.tsx'
 import SortPassword from '../components/SortPassword.tsx'
+import NewPassword from '../components/NewPassword.tsx'
+import PasswordTable from '../components/PasswordTable.tsx'
 
-type TableRow = {
-  website: number;
+export type PasswordEntry = {
+  website: string;
   username: string;
-  password: number;
+  password: string;
   strength: string;
-  city: string;
 };
 
 const MainPasswordPage: React.FC = () => {
-  const data: TableRow[] = [
-    { website: 1, username: "John Doe", password: 30, strength: "john@example.com", city: "New York" },
-    { website: 2, username: "Jane Smith", password: 25, strength: "jane@example.com", city: "Los Angeles" },
-    { website: 3, username: "Mike Johnson", password: 35, strength: "mike@example.com", city: "Chicago" },
-  ];
+
+  const navigate = useNavigate();
+
+  const [passwords, setPasswords] = useState<PasswordEntry[]>([
+  ]);
+
+  const addPassword = (newPassword: Omit<PasswordEntry, "strength">) => {
+    // Calculate password strength (example logic)
+    const strength = newPassword.password.length >= 8 ? "Strong" : "Weak";
+    setPasswords((prev) => [...prev, { ...newPassword, strength }]);
+  };
+
+  const handleLogout = () => {
+    navigate('/');
+  };
 
   return (
     <>
+    <button className="logOutButton" onClick={handleLogout}>Log Out</button>
     <Header title="Password Manager"/>
     <div style={{display: "flex", justifyContent: 'space-around'}}>
       <div className="passwordDiv">
         <h2>Passwords</h2>
         <div className="searchAndSortDiv">
           <div className="searchAndSortDivInner">
-            <h3>Search: </h3>
+            <h3>Seacrh:</h3>
             <PasswordSearch/>
           </div>
           <div className="searchAndSortDivInner">
@@ -35,45 +48,9 @@ const MainPasswordPage: React.FC = () => {
             <SortPassword/>
           </div>
         </div>
-        <table style={{ borderCollapse: "collapse", width: "95%" }}>
-          <thead>
-            <tr>
-              <th className ="th">Website</th>
-              <th className ="th">Username</th>
-              <th className ="th">Password</th>
-              <th className ="th">Strength</th>
-              <th className ="th">Edit/Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row) => (
-              <tr key={row.website} className ="tr">
-                <td className ="td">{row.website}</td>
-                <td className ="td">{row.username}</td>
-                <td className ="td">{row.password}</td>
-                <td className ="td">{row.strength}</td>
-                <td className ="td">{row.city}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <PasswordTable passwords={passwords} setPasswords={setPasswords}/>
       </div>
-      <div className="newPasswordDiv">
-        <h2>Add New Password</h2>
-        <div>
-          <h3>Website</h3>
-          <input type="text" className="newPasswordTextFeild"/>
-        </div>
-        <div>
-          <h3>Username</h3>
-          <input type="text" className="newPasswordTextFeild"/>
-        </div>
-        <div>
-          <h3>Password</h3>
-          <input type="text" className="newPasswordTextFeild"/>
-        </div>
-        <button className="addPasswordButton">Add Password</button>
-      </div>
+      <NewPassword addPassword={addPassword}/>
     </div>
     </>
   );

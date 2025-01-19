@@ -12,6 +12,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     // Implement login logic here
     console.log('Login attempted with:', username, password);
+    navigate('/mainPage');
   };
 
   const handleSignup = () => {

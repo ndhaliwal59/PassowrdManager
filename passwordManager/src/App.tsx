@@ -6,17 +6,15 @@ import MainPasswordPage from './pages/mainPasswordPage';
 
 const App: React.FC = () => {
   return (
-    // <Router>
-    //   <div className="App">
-    //     <Routes>
-    //       <Route path="/" element={<LoginPage />} />
-    //       <Route path="/signup" element={<SignupPage />} />
-    //     </Routes>
-    //   </div>
-    // </Router>
-    <div className="App">
-    <MainPasswordPage />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/mainPage" element={<MainPasswordPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
