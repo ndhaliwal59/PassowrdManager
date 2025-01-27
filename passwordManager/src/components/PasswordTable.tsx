@@ -3,6 +3,7 @@ import "./PasswordTable.css";
 import { PasswordEntry } from "../pages/mainPasswordPage.tsx";
 import ReadOnlyRow from "./ReadOnlyRow.tsx";
 import EditOnlyRow from "./EditOnlyRow.tsx";
+import axios from 'axios';
 
 interface PasswordTableProps {
   passwords: PasswordEntry[];
@@ -18,9 +19,22 @@ const PasswordTable: React.FC<PasswordTableProps> = ({ passwords, setPasswords }
     setEditContact(index);
   };
 
-  const handleDeleteClick = (index: number) => {
-    const updatedPasswords = passwords.filter((_, i) => i !== index);
-    setPasswords(updatedPasswords);
+  const handleDeleteClick = async (id: string) => {
+    try {
+      const response = await axios.delete(`/delete-password/${id}`, {
+        withCredentials: true
+      });
+
+      if (response.data.success) {
+        const updatedPasswords = passwords.filter(password => password._id !== id);
+        setPasswords(updatedPasswords);
+      } else {
+        alert('Failed to delete password: ' + response.data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting password:', error);
+      alert('An error occurred while deleting the password');
+    }
   };
 
 
@@ -41,15 +55,15 @@ const PasswordTable: React.FC<PasswordTableProps> = ({ passwords, setPasswords }
           </thead>
           <tbody>
             {passwords.map((row, index) => (
-              <>
+              <React.Fragment key={row._id}>
                 {editContact === index ? <EditOnlyRow row={row} index={index} setPasswords={setPasswords} setEditContact={setEditContact} /> 
                 : <ReadOnlyRow 
                     row = {row} 
                     index = {index} 
                     handleEditClick = {handleEditClick}
-                    handleDeleteClick={() => handleDeleteClick(index)}
+                    handleDeleteClick={() => handleDeleteClick(row._id)}
                   />}
-              </>
+              </React.Fragment>
             ))}
           </tbody>
         </table>

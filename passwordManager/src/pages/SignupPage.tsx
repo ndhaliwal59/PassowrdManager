@@ -41,22 +41,31 @@ const SignupPage: React.FC = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isPasswordValid()) {
-      setError('Invalid Passowrd');
+      setError('Invalid Password');
       return;
     }
-
+  
     try {
       const response = await axios.post('/register', {
         username, email, password
-      })
+      });
       setSuccessMessage('Account created successfully!');
       setTimeout(() => navigate('/'), 2000);
     } catch (error: any) {
-      setError(error.response?.data?.message || 'An error occurred. Please try again.');
+      if (error.response && error.response.data && error.response.data.error) {
+        if (error.response.data.error === 'Username already exists') {
+          setError('This username is already taken.');
+        } else if (error.response.data.error === 'Email already exists') {
+          setError('An account with this email already exists.');
+        } else {
+          setError(error.response.data.error);
+        }
+      } else {
+        setError('An error occurred. Please try again.');
+      }
     }
-
-
   };
+  
 
   const handleSignin = () => {
     navigate('/');

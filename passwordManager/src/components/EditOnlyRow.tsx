@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PasswordEntry } from "../pages/mainPasswordPage.tsx";
 import './EditOnlyRow.css';
+import axios from 'axios';
 
 interface EditOnlyRowProps {
   row: PasswordEntry;
@@ -15,11 +16,31 @@ interface EditOnlyRowProps {
 const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, setEditContact }) => {
   const [editedRow, setEditedRow] = useState(row);
 
-  const handleSaveClick = () => {
-    setPasswords((prev) =>
-      prev.map((item, i) => (i === index ? editedRow : item))
-    );
-    setEditContact(null);
+  const handleSaveClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if ('_id' in editedRow) {
+      try {
+        const response = await axios.put('/update-password', {
+          id: editedRow._id,
+          website: editedRow.website,
+          username: editedRow.username,
+          password: editedRow.password
+        }, {
+          withCredentials: true
+        });
+  
+        if (response.data.success) {
+          setPasswords((prev) =>
+            prev.map((item) => ('_id' in item && item._id === editedRow._id) ? editedRow : item)
+          );
+          setEditContact(null);
+        } else {
+          alert('Failed to update password: ' + response.data.error);
+        }
+      } catch (error) {
+        console.error('Error updating password:', error);
+      }
+    }
   };
 
 return (
