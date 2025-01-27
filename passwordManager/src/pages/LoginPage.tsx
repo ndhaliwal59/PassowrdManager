@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../components/header.tsx'
 
 const LoginPage: React.FC = () => {
@@ -8,11 +9,24 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement login logic here
-    console.log('Login attempted with:', username, password);
-    navigate('/mainPage');
+
+    try {
+      const response = await axios.post('/login', {
+        username, password
+      })
+      if (response.data.success) {
+        setUsername('');
+        setPassword('');
+        navigate('/mainPage');
+      } else {
+        console.error('Error:', response.data.error || 'Login failed');
+        alert(response.data.error || 'Login failed'); // Optional: Display the error to the user
+      }
+    } catch (error: any) {
+      console.error('Login request failed:', error.message);
+    }
   };
 
   const handleSignup = () => {

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import './SignupPage.css';
 import Header from '../components/header.tsx'
+import bcrypt from 'bcryptjs';
+import axios from 'axios';
 
 const SignupPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -36,16 +38,24 @@ const SignupPage: React.FC = () => {
     return Object.values(passwordFeedback).every(Boolean);
   };
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isPasswordValid()) {
       setError('Invalid Passowrd');
       return;
     }
-    // Implement signup logic here
-    console.log('Signup attempted with:', username, email, password);
-    setError('');
-    setSuccessMessage('Account created successfully!');
+
+    try {
+      const response = await axios.post('/register', {
+        username, email, password
+      })
+      setSuccessMessage('Account created successfully!');
+      setTimeout(() => navigate('/'), 2000);
+    } catch (error: any) {
+      setError(error.response?.data?.message || 'An error occurred. Please try again.');
+    }
+
+
   };
 
   const handleSignin = () => {
