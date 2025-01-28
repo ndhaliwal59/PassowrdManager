@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { PasswordEntry } from "../pages/mainPasswordPage.tsx";
+import { PasswordEntry } from "../pages/mainPasswordPage";
 import './EditOnlyRow.css';
 import axios from 'axios';
+import { calculatePasswordStrength } from "../utility/passwordStrength.ts";
 
 interface EditOnlyRowProps {
   row: PasswordEntry;
@@ -10,9 +11,6 @@ interface EditOnlyRowProps {
   setEditContact: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-
-
-
 const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, setEditContact }) => {
   const [editedRow, setEditedRow] = useState(row);
 
@@ -20,6 +18,10 @@ const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, set
     e.preventDefault();
     if ('_id' in editedRow) {
       try {
+        // Recalculate password strength
+        const updatedStrength = calculatePasswordStrength(editedRow.password);
+
+        // Send the updated data to the backend
         const response = await axios.put('/update-password', {
           id: editedRow._id,
           website: editedRow.website,
@@ -28,10 +30,15 @@ const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, set
         }, {
           withCredentials: true
         });
-  
+
         if (response.data.success) {
+          // Update the local state with the new data and strength
           setPasswords((prev) =>
-            prev.map((item) => ('_id' in item && item._id === editedRow._id) ? editedRow : item)
+            prev.map((item) =>
+              '_id' in item && item._id === editedRow._id
+                ? { ...editedRow, strength: updatedStrength }
+                : item
+            )
           );
           setEditContact(null);
         } else {
@@ -43,39 +50,36 @@ const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, set
     }
   };
 
-return (
-  <tr>
-    <td>
-      <input
-        value={editedRow.website}
-        className="editPasswordsInput"
-        onChange={(e) => setEditedRow({ ...editedRow, website: e.target.value })}
-      />
-    </td>
-    <td>
-      <input
-        value={editedRow.username}
-        className="editPasswordsInput"
-        onChange={(e) => setEditedRow({ ...editedRow, username: e.target.value })}
-      />
-    </td>
-    <td>
-      <input
-        value={editedRow.password}
-        className="editPasswordsInput"
-        onChange={(e) => setEditedRow({ ...editedRow, password: e.target.value })}
-      />
-    </td>
-    <td>{row.strength}</td>
-    <td>
-      <button onClick={handleSaveClick}>Save</button>
-      <button onClick={() => setEditContact(null)}>Cancel</button>
-    </td>
-    <td>
-      
-    </td>
-  </tr>
-);
+  return (
+    <tr>
+      <td>
+        <input
+          value={editedRow.website}
+          className="editPasswordsInput"
+          onChange={(e) => setEditedRow({ ...editedRow, website: e.target.value })}
+        />
+      </td>
+      <td>
+        <input
+          value={editedRow.username}
+          className="editPasswordsInput"
+          onChange={(e) => setEditedRow({ ...editedRow, username: e.target.value })}
+        />
+      </td>
+      <td>
+        <input
+          value={editedRow.password}
+          className="editPasswordsInput"
+          onChange={(e) => setEditedRow({ ...editedRow, password: e.target.value })}
+        />
+      </td>
+      <td>{row.strength}</td>
+      <td>
+        <button onClick={(e) => handleSaveClick(e)}>Save</button>
+        <button onClick={() => setEditContact(null)}>Cancel</button>
+      </td>
+    </tr>
+  );
 };
 
 export default EditOnlyRow;

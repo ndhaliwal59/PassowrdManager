@@ -138,6 +138,7 @@ const addPassword = async (req, res) => {
 const getPasswords = async (req, res) => {
   try {
     const token = req.cookies.token;
+    const { sort } = req.query;
 
     if (!token) {
       return res.status(401).json({ success: false, error: 'Not authenticated' });
@@ -147,8 +148,22 @@ const getPasswords = async (req, res) => {
       if (err) {
         return res.status(401).json({ success: false, error: 'Invalid token' });
       }
+      let sortOption = {};
+      switch (sort) {
+        case 'newest':
+          sortOption = { createdAt: -1 };
+          break;
+        case 'oldest':
+          sortOption = { createdAt: 1 };
+          break;
+        case 'website':
+          sortOption = { website: 1 };
+          break;
+        default:
+          sortOption = { createdAt: 1 };
+      }
 
-      const passwords = await Password.find({ userId: userInfo.id });
+      const passwords = await Password.find({ userId: userInfo.id }).sort(sortOption);
       res.json({ success: true, passwords });
     });
   } catch (error) {
@@ -156,6 +171,7 @@ const getPasswords = async (req, res) => {
     res.status(500).json({ success: false, error: 'Server error' });
   }
 };
+
 
 const updatePassword = async (req, res) => {
   try {

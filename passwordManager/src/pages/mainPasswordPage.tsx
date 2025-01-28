@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import './MainPasswordPage.css';
 import Header from '../components/header.tsx'
-import PasswordSearch from '../components/PasswordSearch.tsx'
 import SortPassword from '../components/SortPassword.tsx'
 import NewPassword from '../components/NewPassword.tsx'
 import PasswordTable from '../components/PasswordTable.tsx'
+import { calculatePasswordStrength } from "../utility/passwordStrength.ts";
 import axios from 'axios';
 
 export type NewPasswordEntry = {
@@ -27,13 +27,15 @@ const MainPasswordPage: React.FC = () => {
 
   const [passwords, setPasswords] = useState<PasswordEntry[]>([]);
 
+  const [sortOption, setSortOption] = useState<string>("oldest");
+
   useEffect(() => {
     fetchPasswords();
-  }, []);
+  }, [sortOption]);
 
   const fetchPasswords = async () => {
     try {
-      const response = await axios.get('/get-passwords', {
+      const response = await axios.get(`/get-passwords?sort=${sortOption}`, {
         withCredentials: true
       });
       if (response.data.success) {
@@ -49,6 +51,10 @@ const MainPasswordPage: React.FC = () => {
     }
   };
 
+  const handleSortChange = (newSortOption: string) => {
+    setSortOption(newSortOption);
+  };
+
   const addPassword = async (newPassword: NewPasswordEntry) => {
     try {
       const response = await axios.post('/add-password', newPassword, {
@@ -56,7 +62,7 @@ const MainPasswordPage: React.FC = () => {
       });
   
       if (response.data.success) {
-        const strength = newPassword.password.length >= 8 ? "Strong" : "Weak";
+        const strength = calculatePasswordStrength(newPassword.password);
         const addedPassword: PasswordEntry = {
           ...newPassword,
           _id: response.data.password._id,
@@ -93,12 +99,8 @@ const MainPasswordPage: React.FC = () => {
         <h2>Passwords</h2>
         <div className="searchAndSortDiv">
           <div className="searchAndSortDivInner">
-            <h3>Seacrh:</h3>
-            <PasswordSearch/>
-          </div>
-          <div className="searchAndSortDivInner">
             <h3>Sort By:</h3>
-            <SortPassword/>
+            <SortPassword onSortChange={handleSortChange}/>
           </div>
         </div>
         <PasswordTable passwords={passwords} setPasswords={setPasswords}/>

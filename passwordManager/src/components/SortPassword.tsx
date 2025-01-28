@@ -1,12 +1,16 @@
 import React from "react";
 import "./SortPassword.css";
 
-const SortPassword: React.FC = () => {
+interface SortPasswordProps {
+  onSortChange: (sortOption: string) => void;
+}
+
+const SortPassword: React.FC<SortPasswordProps> = ({ onSortChange }) => {
   return (
-    <select className="sortByOptions">
-      <option value="Oldest">Oldest</option>
-      <option value="Newest">Newest</option>
-      <option value="Website Name">Website Name</option>
+    <select className="sortByOptions" onChange={(e) => onSortChange(e.target.value)}>
+      <option value="oldest">Oldest</option>
+      <option value="newest">Newest</option>
+      <option value="website">Website Name</option>
     </select>
   );
 };
