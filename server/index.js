@@ -10,7 +10,7 @@ app.use(cors({
   credentials: true,
   origin: [
     'http://localhost:5173', 
-    'https://passowrd-manager-4tgw.vercel.app'
+    'https://passowrd-manager.vercel.app'
   ]
 }));
 
