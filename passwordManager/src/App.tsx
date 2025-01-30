@@ -6,7 +6,7 @@ import MainPasswordPage from './pages/mainPasswordPage';
 import axios from 'axios';
 import { UserContextProvider } from '../context/userContext.tsx';
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+axios.defaults.baseURL = 'https://passowrd-manager-server.vercel.app';
 axios.defaults.withCredentials = true;
 
 const App: React.FC = () => {

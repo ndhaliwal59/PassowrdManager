@@ -8,7 +8,11 @@ const cookieParser = require('cookie-parser');
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:5173', 'https://passowrd-manager-4tgw.vercel.app']
+  origin: [
+    'http://localhost:5173', 
+    'https://passowrd-manager-4tgw.vercel.app',
+    'https://passowrd-manager-4tgw-o0e2bmupf-nishan-dhaliwals-projects.vercel.app'
+  ]
 }));
 
 //database connection
