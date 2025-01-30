@@ -10,7 +10,9 @@ router.use(
     origin: [
       'http://localhost:5173', 
       'https://passowrd-manager-4tgw.vercel.app',
-      'https://passowrd-manager-4tgw-o0e2bmupf-nishan-dhaliwals-projects.vercel.app'
+      'https://passowrd-manager-4tgw-o0e2bmupf-nishan-dhaliwals-projects.vercel.app',
+      'https://passowrd-manager-4tgw-16xn905v7-nishan-dhaliwals-projects.vercel.app',
+      'https://passowrd-manager-4tgw-bcs18kbvq-nishan-dhaliwals-projects.vercel.app' // Add this line
     ]
   })
 );
