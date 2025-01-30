@@ -42,7 +42,7 @@ const PasswordTable: React.FC<PasswordTableProps> = ({ passwords, setPasswords }
   return (
     <>
      <form style = {{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <table style={{ borderCollapse: "collapse", width: "95%", marginBottom: "10px" }}>
+        <table style={{ borderCollapse: "collapse", width: "95%", marginBottom: "10px"}}>
           <thead>
             <tr>
               <th className ="th">Website</th>

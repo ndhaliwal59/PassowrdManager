@@ -13,15 +13,14 @@ interface EditOnlyRowProps {
 
 const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, setEditContact }) => {
   const [editedRow, setEditedRow] = useState(row);
+  
+  // Calculate current strength based on edited password
+  const currentStrength = calculatePasswordStrength(editedRow.password);
 
   const handleSaveClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if ('_id' in editedRow) {
       try {
-        // Recalculate password strength
-        const updatedStrength = calculatePasswordStrength(editedRow.password);
-
-        // Send the updated data to the backend
         const response = await axios.put('/update-password', {
           id: editedRow._id,
           website: editedRow.website,
@@ -32,11 +31,10 @@ const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, set
         });
 
         if (response.data.success) {
-          // Update the local state with the new data and strength
           setPasswords((prev) =>
             prev.map((item) =>
               '_id' in item && item._id === editedRow._id
-                ? { ...editedRow, strength: updatedStrength }
+                ? { ...editedRow, strength: currentStrength }
                 : item
             )
           );
@@ -73,13 +71,14 @@ const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, set
           onChange={(e) => setEditedRow({ ...editedRow, password: e.target.value })}
         />
       </td>
-      <td>{row.strength}</td>
+      <td>{currentStrength}</td>
       <td>
-        <button onClick={(e) => handleSaveClick(e)}>Save</button>
+        <button style={{marginRight: '10px'}} onClick={(e) => handleSaveClick(e)}>Save</button>
         <button onClick={() => setEditContact(null)}>Cancel</button>
       </td>
     </tr>
   );
 };
+
 
 export default EditOnlyRow;

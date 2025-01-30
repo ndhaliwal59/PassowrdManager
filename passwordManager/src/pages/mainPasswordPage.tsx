@@ -41,7 +41,7 @@ const MainPasswordPage: React.FC = () => {
       if (response.data.success) {
         setPasswords(response.data.passwords.map((pwd: any) => ({
           ...pwd,
-          strength: pwd.password.length >= 8 ? "Strong" : "Weak"
+          strength: calculatePasswordStrength(pwd.password)
         })));
       } else {
         console.error('Failed to fetch passwords:', response.data.error);
@@ -93,8 +93,8 @@ const MainPasswordPage: React.FC = () => {
   return (
     <>
     <button className="logOutButton" onClick={handleLogout}>Log Out</button>
-    <Header title="Password Manager"/>
-    <div style={{display: "flex", justifyContent: 'space-around'}}>
+    <Header title="GuardOwl"/>
+    <div className="mainDiv">
       <div className="passwordDiv">
         <h2>Passwords</h2>
         <div className="searchAndSortDiv">
