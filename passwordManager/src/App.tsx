@@ -6,8 +6,9 @@ import MainPasswordPage from './pages/mainPasswordPage';
 import axios from 'axios';
 import { UserContextProvider } from '../context/userContext.tsx';
 
-axios.defaults.baseURL = 'https://passowrd-manager-server-93oydpngz-nishan-dhaliwals-projects.vercel.app';
+axios.defaults.baseURL = 'https://passowrd-manager-server.vercel.app';
 axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
 const App: React.FC = () => {
   return (
