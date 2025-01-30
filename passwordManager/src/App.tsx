@@ -4,7 +4,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import MainPasswordPage from './pages/mainPasswordPage';
 import axios from 'axios';
-import { UserContextProvider } from '../context/userContext.jsx';
+import { UserContextProvider } from '../context/userContext.tsx';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;

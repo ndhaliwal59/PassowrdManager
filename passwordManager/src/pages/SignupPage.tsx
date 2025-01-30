@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { data, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './SignupPage.css';
 import Header from '../components/header.tsx'
-import bcrypt from 'bcryptjs';
 import axios from 'axios';
 
 const SignupPage: React.FC = () => {
@@ -46,11 +45,11 @@ const SignupPage: React.FC = () => {
     }
   
     try {
-      const response = await axios.post('/register', {
+      await axios.post('/register', {
         username, email, password
       });
       setSuccessMessage('Account created successfully!');
-      setTimeout(() => navigate('/'), 2000);
+      setTimeout(() => navigate('/'), 1000);
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
         if (error.response.data.error === 'Username already exists') {

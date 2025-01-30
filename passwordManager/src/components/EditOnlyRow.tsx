@@ -11,7 +11,7 @@ interface EditOnlyRowProps {
   setEditContact: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, index, setPasswords, setEditContact }) => {
+const EditOnlyRow: React.FC<EditOnlyRowProps> = ({ row, setPasswords, setEditContact }) => {
   const [editedRow, setEditedRow] = useState(row);
   
   // Calculate current strength based on edited password
