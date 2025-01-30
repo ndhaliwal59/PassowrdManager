@@ -6,7 +6,7 @@ import MainPasswordPage from './pages/mainPasswordPage';
 import axios from 'axios';
 import { UserContextProvider } from '../context/userContext.tsx';
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'https://passowrd-manager-4tgw.vercel.app';
 axios.defaults.withCredentials = true;
 
 const App: React.FC = () => {
