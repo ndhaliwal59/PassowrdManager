@@ -7,9 +7,9 @@ const {test, registerUser, loginUser, getProfile, addPassword, logoutUser, getPa
 router.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:5173'
+    origin: ['http://localhost:5173', 'https://passowrd-manager-4tgw.vercel.app']
   })
-)
+);
 
 router.get('/', test)
 router.post('/register', registerUser)

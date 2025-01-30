@@ -6,6 +6,11 @@ const app = express();
 const cookie = require('cookie-parser');
 const cookieParser = require('cookie-parser');
 
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:5173', 'https://passowrd-manager-4tgw.vercel.app']
+}));
+
 //database connection
 mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log('Database connected'))
