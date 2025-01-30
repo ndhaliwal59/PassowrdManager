@@ -10,7 +10,7 @@ router.use(
     origin: [
       'http://localhost:5173', 
       'https://passowrd-manager.vercel.app'
-    ]
+    ]  
   })
 );
 
