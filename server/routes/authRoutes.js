@@ -11,7 +11,7 @@ router.use(
       'http://localhost:5173', 
       'https://passowrd-manager.vercel.app'
     ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']  
   })
 );
