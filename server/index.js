@@ -10,7 +10,7 @@ app.use(cors({
   credentials: true,
   origin: [
     'http://localhost:5173', 
-    'https://passowrd-manager.vercel.app'
+    'https://passowrd-manager-git-main-nishan-dhaliwals-projects.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
