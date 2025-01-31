@@ -11,7 +11,9 @@ app.use(cors({
   origin: [
     'http://localhost:5173', 
     'https://passowrd-manager.vercel.app'
-  ]
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.options('*', cors()); // Enable preflight requests for all routes
