@@ -1,34 +1,38 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
-const {mongoose} = require('mongoose');
-const app = express();
-const cookie = require('cookie-parser');
+const { mongoose } = require('mongoose');
 const cookieParser = require('cookie-parser');
 
-app.use(cors({
-  credentials: true,
+const app = express();
+
+// CORS configuration
+const corsOptions = {
   origin: [
-    'http://localhost:5173', 
+    'http://localhost:5173',
     'https://passowrd-manager-git-main-nishan-dhaliwals-projects.vercel.app'
   ],
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['set-cookie']
+};
 
-app.options('*', cors()); // Enable preflight requests for all routes
+// Apply CORS middleware before other routes
+app.use(cors(corsOptions));
 
-//database connection
-mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log('Database connected'))
-.catch((error) => console.error('Database connection error:', error));
-
-//middleware
+// Other middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', require('./routes/authRoutes')) 
+// Database connection
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log('Database connected'))
+  .catch((error) => console.error('Database connection error:', error));
+
+// Routes
+app.use('/', require('./routes/authRoutes'));
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server is running on ${port}`));
