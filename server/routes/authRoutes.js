@@ -12,6 +12,12 @@ const {
   deletePassword 
 } = require('../controllers/authController');
 
+// Add explicit OPTIONS handling for each route
+const handleOptions = (req, res) => {
+  res.status(204).send();
+};
+
+router.options('*', handleOptions);
 router.get('/', test);
 router.post('/register', registerUser);
 router.post('/login', loginUser);

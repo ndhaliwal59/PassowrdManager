@@ -15,11 +15,18 @@ const corsOptions = {
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  exposedHeaders: ['set-cookie']
+  exposedHeaders: ['set-cookie'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };
 
 // Apply CORS middleware before other routes
 app.use(cors(corsOptions));
+
+// Handle preflight requests for all routes
+app.options('*', (req, res) => {
+  res.status(204).send();
+});
 
 // Other middleware
 app.use(express.json());

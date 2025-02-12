@@ -9,6 +9,7 @@ import { UserContextProvider } from '../context/userContext.tsx';
 axios.defaults.baseURL = 'https://passowrd-manager-server-git-main-nishan-dhaliwals-projects.vercel.app';
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const App: React.FC = () => {
   return (
