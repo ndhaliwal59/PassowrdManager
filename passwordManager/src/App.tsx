@@ -8,8 +8,24 @@ import { UserContextProvider } from '../context/userContext.tsx';
 
 axios.defaults.baseURL = 'https://passowrd-manager-server-git-main-nishan-dhaliwals-projects.vercel.app';
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+// Add request interceptor for debugging
+axios.interceptors.request.use(request => {
+  console.log('Request:', request);
+  return request;
+}, error => {
+  console.log('Request Error:', error);
+  return Promise.reject(error);
+});
+
+// Add response interceptor for debugging
+axios.interceptors.response.use(response => {
+  console.log('Response:', response);
+  return response;
+}, error => {
+  console.log('Response Error:', error);
+  return Promise.reject(error);
+});
 
 const App: React.FC = () => {
   return (

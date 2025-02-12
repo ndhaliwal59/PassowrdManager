@@ -6,26 +6,31 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
-// CORS configuration
-const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'https://passowrd-manager-git-main-nishan-dhaliwals-projects.vercel.app'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  exposedHeaders: ['set-cookie'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
+// Define allowed origins
+const allowedOrigins = [
+  'https://passowrd-manager.vercel.app',
+  'https://passowrd-manager-git-main-nishan-dhaliwals-projects.vercel.app',
+  'http://localhost:5173'
+];
 
-// Apply CORS middleware before other routes
-app.use(cors(corsOptions));
-
-// Handle preflight requests for all routes
-app.options('*', (req, res) => {
-  res.status(204).send();
+// Global middleware to handle CORS
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  
+  // Check if origin is in allowed origins
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  next();
 });
 
 // Other middleware
